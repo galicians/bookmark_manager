@@ -1,5 +1,8 @@
 
+Rspec matchers:
 
+expect{ sign_up }.to change(User, :count).by(1)
+expect(page.status_code).to eq(200)
 
 You will see a messags along the lines 'unknown database "pabloportabales"). Let's create that database for you so that you can loging without having to specify the database:
 
@@ -38,3 +41,30 @@ capybara can be used with cucumber or rspec, in this project we are using it wit
  set :views, Proc.new { File.join(root, "..","views") }
  set :public_folder, 'public'
  enable :sessions
+
+ expect(link.tags.map(&:text)).to include("education")
+
+ DataMapper::Loger.new(STDOUT, :debug)
+
+ Link.get(1)
+
+:title.like => 'Data M%'
+
+
+require 'data_mapper'
+
+A word of caution. If you declare a property, you shouldn't declare an accessor (or reader, or writer) for that property because you'll override datamapper's default functionality. Ruby will not throw any warning in this case. In other words, if you do this:
+
+# this is wrong!
+property :description, Text
+attr_reader :description
+
+  property :password_digest, Text
+ It's Text and not String because String holds
+
+
+gives you the gem location on your machine --> bundle show sinatra
+
+
+
+

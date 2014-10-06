@@ -2,6 +2,8 @@ require 'sinatra'
 require 'data_mapper'
 require './lib/link' # this needs to be done after datamapper is initialised
 require './lib/tag'
+require './lib/user'
+require './helpers/application'
 
 env = ENV["RACK_ENV"] || "development"
 # we're telling datamapper to use a postgres database on localhost. The name will be "bookmark_manager_test" or "bookmark_manager_development" depending on the environment
@@ -15,7 +17,7 @@ DataMapper.auto_upgrade!
 	set :views, Proc.new { File.join(root, "..","views") }
 	set :public_folder, 'public'
 	enable :sessions
-
+	set :session_secret, 'super secret'
 
 
 get '/' do
@@ -31,6 +33,23 @@ post '/links' do
 	end
 	Link.create(:url => url, :title => title, :tags => tags)
   redirect to('/')
+end
+
+get '/tags/:text' do
+  tag = Tag.first(:text => params[:text])
+  @links = tag ? tag.links : []
+  erb :index
+end
+
+get '/users/new' do
+	erb :"users/new"
+end
+
+post '/users' do
+	user = User.create(:email => params[:email],
+							:password => params[:password])
+	session[:user_id] = user.id
+	redirect to('/')
 end
 
 
