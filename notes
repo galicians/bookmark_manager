@@ -4,6 +4,11 @@ Rspec matchers:
 expect{ sign_up }.to change(User, :count).by(1)
 expect(page.status_code).to eq(200)
 
+capybara resources:
+http://www.elabs.se/blog/51-simple-tricks-to-clean-up-your-capybara-tests
+
+
+
 You will see a messags along the lines 'unknown database "pabloportabales"). Let's create that database for you so that you can loging without having to specify the database:
 
 psql postgres
@@ -65,6 +70,15 @@ attr_reader :description
 
 gives you the gem location on your machine --> bundle show sinatra
 
+
+I want to use this method in several different acceptance tests (they're in different files). What's the best way to include this?
+Put your helper to the spec/support folder and do something like this:
+module YourHelper
+end
+RSpec.configure do |config|
+	config.include YourHelper, :type => :request
+end
+type => :feature
 
 
 

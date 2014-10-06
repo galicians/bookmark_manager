@@ -4,6 +4,7 @@ require './lib/link' # this needs to be done after datamapper is initialised
 require './lib/tag'
 require './lib/user'
 require './helpers/application'
+require 'rack-flash'
 
 env = ENV["RACK_ENV"] || "development"
 # we're telling datamapper to use a postgres database on localhost. The name will be "bookmark_manager_test" or "bookmark_manager_development" depending on the environment
@@ -13,7 +14,7 @@ DataMapper.finalize
 # However, the database tables don't exist yet. Let's tell datamapper to create them
 DataMapper.auto_upgrade!
 
-
+	use Rack::Flash, :sweep => true
 	set :views, Proc.new { File.join(root, "..","views") }
 	set :public_folder, 'public'
 	enable :sessions
@@ -42,14 +43,36 @@ get '/tags/:text' do
 end
 
 get '/users/new' do
+	@user = User.new
 	erb :"users/new"
 end
 
 post '/users' do
-	user = User.create(:email => params[:email],
-							:password => params[:password])
-	session[:user_id] = user.id
-	redirect to('/')
+	@user = User.create(:email => params[:email],
+							:password => params[:password],
+							:password_confirmation => params[:password_confirmation])
+	if @user.save
+		session[:user_id] = @user.id
+		redirect to('/')
+	else
+		flash[:notice] = "Sorry, your passwords don't match"
+		erb :"users/new"
+	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
