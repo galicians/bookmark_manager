@@ -1,0 +1,15 @@
+
+
+
+You will see a messags along the lines 'unknown database "pabloportabales"). Let's create that database for you so that you can loging without having to specify the database:
+
+psql postgres
+
+postgres# create database "ecomba";
+
+CREATE DATABASE
+
+postgres# \q
+
+
+cucumber-sinatra init --app  BattleShips lib/battleships.rb
