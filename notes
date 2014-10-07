@@ -95,3 +95,5 @@ In general, there are three levels at which you can and should check for the uni
 
 
 <% if flash[:errors] && !flash[:errors].empty? %>
+
+rake auto_migrate

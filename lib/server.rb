@@ -12,7 +12,7 @@ DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{env}")
 # After declaring your models, you should finalise them
 DataMapper.finalize
 # However, the database tables don't exist yet. Let's tell datamapper to create them
-DataMapper.auto_upgrade!
+
 
 	use Rack::Flash, :sweep => true
 	set :views, Proc.new { File.join(root, "..","views") }
@@ -60,6 +60,22 @@ post '/users' do
 		flash.now[:errors] = @user.errors.full_messages
 		erb :"users/new"
 	end
+end
+
+get '/sessions/new' do
+  erb :"sessions/new"
+end
+
+post '/sessions' do
+  email, password = params[:email], params[:password]
+  user = User.authenticate(email, password)
+  if user
+    session[:user_id] = user.id
+    redirect to('/')
+  else
+    flash[:errors] = ["The email or password is incorrect"]
+    erb :"sessions/new"
+  end
 end
 
 
