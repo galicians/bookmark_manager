@@ -97,3 +97,5 @@ In general, there are three levels at which you can and should check for the uni
 <% if flash[:errors] && !flash[:errors].empty? %>
 
 rake auto_migrate
+
+Since "signed in" only means that there's a user_id in the session, logging the user out is as simple as setting the session[:user_id] to nil. Let's write a test.

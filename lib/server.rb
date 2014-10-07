@@ -48,8 +48,6 @@ get '/users/new' do
 end
 
 post '/users' do
-
-	puts ""
 	@user = User.create(:email => params[:email],
 							:password => params[:password],
 							:password_confirmation => params[:password_confirmation])
@@ -79,7 +77,11 @@ post '/sessions' do
 end
 
 
-
+delete '/sessions' do
+  flash[:notice] = "Good bye!"
+  session[:user_id] = nil
+  redirect to('/')
+end
 
 
 
