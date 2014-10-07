@@ -30,10 +30,19 @@ dbtype://user:password@hostname:port/databasename
 
 By default Postgres.app is configured to accept connections from a logged in user without the password, so we omit them. Since postgres is running on the default port 5432, it doesn't have to be specified either.
 
+
+POSTGRESS COMMANDS:
+
 psql:
 \list lists all databases
 \dt lists all tables in the current database
  psql book_manager_test
+ You can use \c db_name to connect to a certain database. 
+\d+ tablename  -> table schema
+
+ Use the command \d meaning show all tables, views, and sequences
+
+ o exit the psql terminal, type \q and press enter. Or Ctrl-D does the same thing
 
 rspec --init creates .rspec and spec/spec_helper.rb
 
@@ -80,5 +89,9 @@ RSpec.configure do |config|
 end
 type => :feature
 
+In general, there are three levels at which you can and should check for the uniqueness in a well-designed application.
+
+ request to the server to check if the form is valid. 
 
 
+<% if flash[:errors] && !flash[:errors].empty? %>
