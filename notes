@@ -120,7 +120,31 @@ user.create is user.new and user.save at the same time
 find in all files in sublime --> cmd + shift + F
 
 
+add the ssh
 
+git remote -v
+
+HEROKU:
+heroku create
+heroku apps:rename battleshipsweb
+heroku push master
+heroku ps:scale web=1
+heroku open
+
+heroku addons
+heroku config
+heroku pg
+
+heroku addons:add heroku-postgresql:hobby-dev
+heroku addons:add mailgun
+
+heroku pg:info
+heroku pg:psql
+
+
+You should also add the .bundle directory to your .gitignore file. 
+
+Running bundle install also generates a Gemfile.lock file, which should be added to your git repository. Gemfile.lock ensures that your deployed versions of gems on Heroku match the version installed locally on your development machine. The flag -j4 will use 4 parallel jobs to install all of your dependencies.
 
 
 

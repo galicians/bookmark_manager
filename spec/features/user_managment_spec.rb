@@ -97,14 +97,6 @@ end
   		expect(page.status_code).to eq(200)
   	end
 
-  	
-
-
-
-
-
-
-
   	def reset_password(email = "test@test.com")
   		visit '/forgotten'
   		expect(page.status_code).to eq(200)

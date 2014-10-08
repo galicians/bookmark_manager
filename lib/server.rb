@@ -114,7 +114,9 @@ get "/users/reset_password/:token" do
 	erb :"users/reset_password"
 end
 
+post "users/password_changed" do
 
+end
 
 
 
