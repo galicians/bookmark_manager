@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 
+ruby '2.1.3'
+
 gem 'sinatra'
 gem 'rack-flash3'
+gem 'data_mapper'
+gem 'dm-postgres-adapter'
+gem 'bcrypt-ruby'
+gem 'sinatra-partial'
+gem 'poltergeist'
+
 
 group :development, :test do
 	gem 'capybara'
-	gem 'cucumber'
-	gem 'cucumber-sinatra'
 	gem 'rspec'
-	gem 'launchy'
-	gem 'data_mapper'
-	gem 'dm-postgres-adapter'
 	gem 'database_cleaner'
-	gem 'bcrypt-ruby'
-	gem 'rack_session_access'
-
 end
