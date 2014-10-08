@@ -80,3 +80,40 @@ feature 'User signs out' do
   end
 
 end
+
+	feature "user resets password" do 
+
+		before(:each) do
+    User.create(:email => "test@test.com",
+                :password => 'test',
+                :password_confirmation => 'test',
+                :password_token => 'password_token')
+  	end
+  	
+  	scenario "user is not logged" do
+  		reset_password
+  		expect(page).to have_content("Hi test@test.com, an email on how to get a new password is on the way")
+  		visit "/users/reset_password/:token"
+  		expect(page.status_code).to eq(200)
+  	end
+
+  	
+
+
+
+
+
+
+
+  	def reset_password(email = "test@test.com")
+  		visit '/forgotten'
+  		expect(page.status_code).to eq(200)
+  		expect(page).not_to have_content("Welcome, test@test.com")
+  		fill_in :email, :with => email
+  		click_button "forgotten"
+  	end
+
+	end
+
+
+
