@@ -5,9 +5,11 @@ get '/users/new' do
 end
 
 post '/users' do
+	redirect ('/users/new') if params[:email].empty? || params[:password].empty?
 	@user = User.create(:email => params[:email],
 							:password => params[:password],
 							:password_confirmation => params[:password_confirmation])
+	
 	if @user.save
 		session[:user_id] = @user.id
 		redirect to('/')
@@ -31,7 +33,7 @@ post '/forgotten' do
 		@user.password_token_timestamp = Time.now
 		@user.save
 		send_simple_message(@user)
-		flash[:notice] = 'Please check your email inbox, you should see an email password request.'
+		flash[:notice] = "Hi #{@user.email}, an email on how to get a new password is on the way"
 		redirect '/'
 	else
 		flash[:notice] = "Your email #{params[:email]} doesn't match any record in our db, please try again"
@@ -44,9 +46,7 @@ post "/password_change" do
 	@password_confirmed = params[:password] == params[:password_confirmation]
 	
 	if @password_confirmed
-		p session.inspect
 		@user = User.first(:email => session[:user])
-		p @user.email
 		@user.password = params[:password]
 		@user.save
 		flash[:notice] = "Password changed"
@@ -58,7 +58,6 @@ post "/password_change" do
 end
 
 get "/users/reset_password/:token" do
-	puts "#{params[:token]}"
 	@user = User.first(:password_token => params[:token])
 
 	if !@user
