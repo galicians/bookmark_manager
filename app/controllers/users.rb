@@ -23,32 +23,57 @@ get '/forgotten' do
 end
 
 post '/forgotten' do
-	puts "your email is #{params[:email]}"
-	@dummy_user = User.create(:email => 'hello@hello.com',
-							:password => 'xxx',
-							:password_confirmation => 'xxx',
-							:password_token => 'password_token',
-							:password_token_timestamp => Time.now)
-	puts @dummy_user.password_token
+
 	@user = User.first(:email => params[:email])
-	puts "user email is#{@user.email}"
-	@user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
-	@user.password_token_timestamp = Time.now
-	@user.save
-	puts @user.password_token
-	puts @user.password_token_timestamp
-	send_simple_message
-	# u.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
-	# user.password_token_timestamp = Time.now
-	# user.save
-	erb :"users/waiting_email"
+	
+	if @user
+		@user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
+		@user.password_token_timestamp = Time.now
+		@user.save
+		send_simple_message(@user)
+		flash[:notice] = 'Please check your email inbox, you should see an email password request.'
+		redirect '/'
+	else
+		flash[:notice] = "Your email #{params[:email]} doesn't match any record in our db, please try again"
+		redirect '/forgotten'
+	end
+end
+
+post "/password_change" do
+
+	@password_confirmed = params[:password] == params[:password_confirmation]
+	
+	if @password_confirmed
+		p session.inspect
+		@user = User.first(:email => session[:user])
+		p @user.email
+		@user.password = params[:password]
+		@user.save
+		flash[:notice] = "Password changed"
+		redirect '/'
+	else
+		flash[:notice] = "Passwords don't match, please try again."
+		erb :"users/reset_password"
+	end
 end
 
 get "/users/reset_password/:token" do
-	# user = User.first(:password_token => token)
+	puts "#{params[:token]}"
+	@user = User.first(:password_token => params[:token])
+
+	if !@user
+		flash[:notice] = "Apologies, but your token is not in our system please request a new one"
+		redirect '/forgotten'
+	end
+
+	@on_time = Time.now - @user.password_token_timestamp < 3600
+
+	if !@on_time
+		flash[:notice] = "Your email reset period has expired please request it again."
+		redirect '/forgotten'
+	end
+	session[:user] = "#{@user.email}"
 	erb :"users/reset_password"
 end
 
-post "users/password_changed" do
 
-end

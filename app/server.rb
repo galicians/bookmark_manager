@@ -18,7 +18,7 @@ include Email
 
 enable :sessions
 set :session_secret, 'super secret'
-use Rack::Flash, :sweep => true
+use Rack::Flash
 set :partial_template_engine, :erb
 set :public_folder, 'public'
 
