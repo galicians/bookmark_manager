@@ -216,6 +216,8 @@ heroku open
 
 https://github.com/alexpeattie/heroku_secrets
 
+gitignore: https://devcenter.heroku.com/articles/gitignore
+
 
 
 
