@@ -37,7 +37,7 @@ post '/forgotten' do
 	@user.save
 	puts @user.password_token
 	puts @user.password_token_timestamp
-	
+	send_simple_message
 	# u.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
 	# user.password_token_timestamp = Time.now
 	# user.save

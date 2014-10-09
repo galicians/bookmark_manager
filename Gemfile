@@ -9,6 +9,7 @@ gem 'dm-postgres-adapter'
 gem 'bcrypt-ruby'
 gem 'sinatra-partial'
 gem 'poltergeist'
+gem 'rest-client'
 
 
 group :development, :test do
