@@ -208,6 +208,15 @@ nokogiri
 geo gems
 geocoder --> location
 
+git push heroku master
+heroku open
+heroku run rake auto_migrate
+heroku open
+
+
+https://github.com/alexpeattie/heroku_secrets
+
+
 
 
 
