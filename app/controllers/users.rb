@@ -66,7 +66,7 @@ get "/users/reset_password/:token" do
 	end
 
 	@on_time = Time.now - @user.password_token_timestamp < 3600
-
+	
 	if !@on_time
 		flash[:notice] = "Your email reset period has expired please request it again."
 		redirect '/forgotten'
